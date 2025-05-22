@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Riddle Quest</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#e6f9e6, #ccffcc);
+      color: #2e7d32;
+      text-align: center;
+    }
+    header {
+      padding: 2rem;
+      background: #a5d6a7;
+      color: #1b5e20;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      padding: 2rem;
+    }
+    .riddle-box {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 128, 0, 0.2);
+      max-width: 600px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    .navigation button {
+      margin: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #66bb6a;
+      color: white;
+      cursor: pointer;
+    }
+    .navigation button:hover {
+      background-color: #388e3c;
+    }
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      width: 80%;
+    }
+    #result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎂 Birthday Riddle Quest 🎂</h1>
+    <p>Can you solve all 22 puzzles and win your final surprise?</p>
+  </header>
+  <main>
+    <div class="riddle-box">
+      <h2 id="riddle-title">Welcome!</h2>
+      <p id="riddle-text">Press Start to begin your birthday adventure. 🎉💚</p>
+      <input type="text" id="answer" placeholder="Your answer here..." style="display:none;"/>
+      <div id="result"></div>
+      <div class="navigation">
+        <button onclick="nextRiddle()">Start</button>
+      </div>
+    </div>
+  </main>
+  <script>
+    const riddles = [
+      { title: "Porsche Riddle", text: `I don’t just drive — I glide with flair,\nA beast in purple, with curves so rare.\nOn tracks I scream, in streets I flex,\nThe dream machine that turns all necks.\nIf midnight’s shade makes your heart race,\nFind the one who'd sell their soul for a taste.`, answer: "porsche 911 gt3 rs midnight purple" },
+      { title: "Mom Riddle", text: `She knows where everything goes,\nFrom your socks to tasty doughs.\nShe’s the boss and hugs you tight,\nFind her where things feel just right.`, answer: "2917" },
+      { title: "Trivia Puzzle About You", text: `Multiple choice quiz about your girlfriend. (Interactive placeholder)`, answer: "ok" },
+      { title: "Beru Riddle", text: `I once was a beast, an ant so feared,\nNow I serve my king, with voice that's weird.\nWith claws so sharp and loyalty grand,\nI'd destroy whole armies at a wave of his hand.\nI bow, I hiss, I serve with pride—`, answer: "beru" },
+      { title: "Alzee Riddle", text: `Your fav person in the world!`, answer: "7721" },
+      { title: "Shashank Riddle", text: `He walks with swag, stands tall with pride,\nTeases you but still takes your side.\nHe’s older, cooler, kind of sly—\nGo find this guy, don’t be shy!`, answer: "4340" },
+      { title: "Proposal Memory Riddle", text: `You took me to sand, pretending “just chill,”\nBut your hands were sweaty — nerves hard to kill.\nThe waves were crashing, your voice kinda cracked,\nYou dropped down (on purpose!) — heart fully attacked.\nI said “yes,” and now here we are —\nFind the date where you fumbled like a star.`, answer: "6/10/2024" },
+      { title: "Warhammer Riddle", text: `I march in squads, I roll with fate,\nMy dice decide my soldiers' state.\nWith paints and glue, I come to life,\nBut on the field, I bring the strife.\nI'm not a toy, I’m war with flair—\nFind the one who builds armies with care.`, answer: "warhammer" },
+      { title: "Math Puzzle", text: `Solve this equation challenge. (Interactive placeholder)`, answer: "ok" },
+      { title: "Maze Puzzle", text: `Navigate through the maze. (Interactive placeholder)`, answer: "ok" },
+      { title: "Glen’s Bakehouse Riddle", text: `With vintage charm and cakes so sweet,\nA cozy corner, the perfect treat.\nCoffee brews and secrets bake,\nWhere red velvet steals the cake.\nIf hunger hits and vibes feel right,\nFind the place that’s pure delight.`, answer: "glen’s bakehouse" },
+      { title: "Pattern Matching Puzzle", text: `Find the pattern. (Interactive placeholder)`, answer: "ok" },
+      { title: "Nanaji Riddle", text: `He’s wise, kind, and aging fine,\nWith creams and oils that always shine.\nSkincare king with a glowing face,\nFind him in his self-care space.`, answer: "8832" },
+      { title: "Caesar Cipher Puzzle", text: `Decode this Caesar Cipher. (Interactive placeholder)`, answer: "ok" },
+      { title: "Cryptogram Puzzle", text: `Decrypt the hidden message. (Interactive placeholder)`, answer: "ok" },
+      { title: "Crossword Puzzle", text: `Fill in the crossword. (Interactive placeholder)`, answer: "ok" },
+      { title: "Kuhu Riddle", text: `Small in size but big in cheer,\nShe’s like a sister who’s always near.\nWith laughter, love, and playful fun,\nShe’s hiding a clue—go, little one!`, answer: "1154" },
+      { title: "Word Search Puzzle", text: `Find all the words! (Interactive placeholder)`, answer: "ok" },
+      { title: "Sushi Riddle", text: `Wrapped in seaweed, cool and neat,\nRice and fish, the perfect treat.\nI don’t need fire, I’m served raw,\nOne bite in, you’re in love — in awe.\nSoy me up and take a dip,\nFind the fan of every sushi trip.`, answer: "sushi" },
+      { title: "Sliding Puzzle", text: `Rearrange tiles to solve it. (Interactive placeholder)`, answer: "ok" },
+      { title: "Arvind Riddle", text: `Wings of dreams and eyes on the sky,\nHe’s aiming high, he wants to fly.\nWith duty and honor in his heart,\nFind him before he takes off to start!`, answer: "1478" },
+      { title: "Jigsaw Puzzle", text: `Assemble the jigsaw. (Interactive placeholder)`, answer: "ok" }
+    ];
+
+    let current = -1;
+
+    function nextRiddle() {
+      current++;
+      if (current >= riddles.length) {
+        document.querySelector(".riddle-box").innerHTML = `
+          <h2>🎊 Happy Birthday, Bday Boy — You Win!! 🎊</h2>
+          <p>(throw party poppers 🎉🎉🎉)</p>
+          <p>You solved them all like a true genius.<br />Now stop puzzling and start celebrating — your queen says so. 💚👑<br />Love you loads!</p>
+          <button onclick='location.reload()'>🔄 Play Again</button>`;
+        return;
+      }
+
+      const r = riddles[current];
+      document.getElementById("riddle-title").innerText = r.title;
+      document.getElementById("riddle-text").innerText = r.text;
+      document.getElementById("answer").value = "";
+      document.getElementById("answer").style.display = "block";
+      document.getElementById("result").innerText = "";
+      document.querySelector(".navigation button").innerText = "Submit";
+      document.querySelector(".navigation button").onclick = checkAnswer;
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answer").value.trim().toLowerCase();
+      const correct = riddles[current].answer.toLowerCase();
+      if (input === correct || correct === "ok") {
+        document.getElementById("result").innerText = "✅ Correct!";
+        setTimeout(nextRiddle, 1000);
+      } else {
+        document.getElementById("result").innerText = "❌ Try again!";
+      }
+    }
+  </script>
+</body>
+</html>
